@@ -6,7 +6,14 @@ const Test = () => {
   return (
     <div className="homeBody">
       <Header />
-      <div className="mainCont">asdsa</div>
+      <div className="mainCont">
+        <div className="patListCont">
+          <div>asdasd</div>
+        </div>
+        <div className="patDetCont">
+          <div>aqweqweqwe</div>
+        </div>
+      </div>
     </div>
   );
 };
