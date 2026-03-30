@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Header.css";
 import BellLogo from "../assets/BellLogo";
-import NotifLogo from "../assets/NotifLogo"
+import NotifLogo from "../assets/NotifLogo";
 import AccLogo from "../assets/AccLogo";
 
 const Header = () => {

@@ -1,6 +1,8 @@
-import react from "react";
+import React from "react";
 import Header from "../components/Header";
 import "../styles/Home.css";
+import AddPatBtn from "../components/AddPatBtn";
+import PatientItem from "../components/PatientItem";
 
 const Test = () => {
   return (
@@ -8,10 +10,13 @@ const Test = () => {
       <Header />
       <div className="mainCont">
         <div className="patListCont">
-          <div>asdasd</div>
-        </div>
-        <div className="patDetCont">
-          <div>aqweqweqwe</div>
+          <div className="addBtnCont">
+            <AddPatBtn />
+          </div>
+
+          <div className="patList">
+            <PatientItem />
+          </div>
         </div>
       </div>
     </div>

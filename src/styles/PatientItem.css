@@ -1,0 +1,43 @@
+.addPatBtn {
+  width: 90%;
+  height: 50%;
+  /*border: 1px solid rgba(65, 105, 225, 0.4); */
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  gap: 8px;
+}
+
+.addPatBtn:hover {
+  cursor: pointer;
+  background-color: rgba(65, 105, 225, 1);
+  color: white;
+  border: 1px solid rgba(65, 105, 225, 0.4);
+}
+
+.patient-itemCont {
+  width: 80%;
+  height: 80px;
+  background-color: purple;
+}
+
+.patient-item {
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.patient-profile {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: black;
+}

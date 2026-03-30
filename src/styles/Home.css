@@ -13,9 +13,29 @@
   flex-direction: row;
 }
 
-
 .patListCont {
   width: 25%;
   height: 100%;
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid rgba(65, 105, 225, 0.2);
+}
+
+.addBtnCont {
+  width: 100%;
+  height: 10%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.patList {
+  width: 100%;
+  height: 90%;
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
