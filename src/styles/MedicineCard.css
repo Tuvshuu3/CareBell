@@ -1,0 +1,58 @@
+.medicine-card {
+  width: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  font-family: Arial, sans-serif;
+}
+
+.medicine-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.medicine-content {
+  padding: 15px;
+}
+
+.medicine-title {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+}
+
+.medicine-content p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.medicine-status {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Status styles */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+}
+
+/* Colors */
+.status.taken {
+  background-color: #4caf50; /* green */
+}
+
+.status.half {
+  background-color: #ffc107; /* yellow */
+  color: black;
+}
+
+.status.missed {
+  background-color: #f44336; /* red */
+}

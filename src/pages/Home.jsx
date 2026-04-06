@@ -5,6 +5,8 @@ import AddPatBtn from "../components/AddPatBtn";
 import PatientItem from "../components/PatientItem";
 import oldMan from "../assets/oldMan.png";
 import oldWoman from "../assets/oldWoman.png";
+import medicines from "../components/medicines.json";
+import MedicineCard from "../components/MedicineCard";
 
 const Test = () => {
   return (
@@ -30,6 +32,20 @@ const Test = () => {
               selected={false}
             />
           </div>
+        </div>
+        <div className="patInfoCont">
+          {medicines.map((med) => (
+            <MedicineCard
+              key={med.id}
+              image={med.image}
+              name={med.name}
+              dosage={med.dosage}
+              startDate={med.startDate}
+              endDate={med.endDate}
+              time={med.time}
+              status={med.status}
+            />
+          ))}
         </div>
       </div>
     </div>
