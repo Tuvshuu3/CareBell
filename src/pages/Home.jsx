@@ -7,6 +7,7 @@ import oldMan from "../assets/oldMan.png";
 import oldWoman from "../assets/oldWoman.png";
 import medicines from "../components/medicines.json";
 import MedicineCard from "../components/MedicineCard";
+import AddCard from "../components/AddCard";
 
 const Test = () => {
   return (
@@ -46,6 +47,7 @@ const Test = () => {
               status={med.status}
             />
           ))}
+          <AddCard />
         </div>
       </div>
     </div>
