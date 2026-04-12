@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import CaretakerHome from "./pages/CaretakerHome";
+import PatientHome from "./pages/PatientHome";
 import Login from "./pages/Login";
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/caretakerHome" element={<CaretakerHome />} />
+        <Route path="/patientHome" element={<PatientHome />} />
       </Routes>
     </BrowserRouter>
   );

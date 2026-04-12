@@ -11,7 +11,7 @@ const statusText = {
   taken: "Taken",
   half: "Due",
   missed: "Missed",
-};
+};s
 
 export default function MedicineCard({
   image,

@@ -1,20 +1,29 @@
-import React from "react";
-import ButtonEx from "../components/ButtonExample";
+import React, { useState } from "react";
+import { LinkButton } from "../components";
 import "../styles/Login.css";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const handleChange = (e) => {
+    setUsername(e.target.value);
+  };
   return (
     <div className="body">
       <div className="loginCont">
         <h1>Welcome to Login</h1>
         <div className="inputCont">
-          <input type="text" placeholder="Username" className="inputField" />
+          <input
+            type="text"
+            placeholder="Username"
+            onChange={handleChange}
+            className="inputField"
+          />
           <input
             type="password"
             placeholder="Password"
             className="inputField"
           />
-          <ButtonEx />
+          <LinkButton username={username} />
         </div>
       </div>
     </div>

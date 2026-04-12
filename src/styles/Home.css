@@ -52,3 +52,22 @@
   box-sizing: border-box;
   padding: 30px 30px 60px;
 }
+
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  color: #0000;
+  background: linear-gradient(90deg, #4169e1 calc(50% + 0.5ch), #000 0)
+    right/calc(200% + 1ch) 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: l7 1s infinite steps(11);
+}
+
+@keyframes l7 {
+  to {
+    background-position: left;
+  }
+}

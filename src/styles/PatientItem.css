@@ -26,7 +26,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid rgba(65, 105, 225, 0.2)
+  border-bottom: 1px solid rgba(65, 105, 225, 0.2);
+  cursor: pointer;
 }
 
 .patient-item {
@@ -81,7 +82,7 @@
 }
 
 .selectedItemCont {
-  background-color:#ebf2fd;
+  background-color: #ebf2fd;
 }
 
 .selectedItem {
@@ -91,6 +92,5 @@
 }
 
 .selectedBtn {
-  background-color: #4169E1;
+  background-color: #4169e1;
 }
-
