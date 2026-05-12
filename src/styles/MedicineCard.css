@@ -178,3 +178,19 @@
 .medicine-delete-button:hover {
   background-color: #a61f1f;
 }
+
+@media (max-width: 720px) {
+  .medicine-card {
+    width: min(100%, 390px);
+  }
+
+  .medicine-image {
+    height: 150px;
+  }
+
+  .medicine-course {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+}

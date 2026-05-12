@@ -112,6 +112,11 @@
 }
 
 @media (max-width: 480px) {
+    .add-card {
+        width: min(100%, 390px);
+        height: 180px;
+    }
+
     .add-modal-row {
         grid-template-columns: 1fr;
     }

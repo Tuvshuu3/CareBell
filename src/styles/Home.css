@@ -71,3 +71,64 @@
     background-position: left;
   }
 }
+
+@media (max-width: 720px) {
+  .mainCont {
+    height: calc(100vh - 72px);
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .patListCont {
+    width: 100%;
+    height: 156px;
+    flex-shrink: 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(65, 105, 225, 0.2);
+  }
+
+  .addBtnCont {
+    height: 58px;
+    border-bottom: 1px solid rgba(65, 105, 225, 0.2);
+  }
+
+  .patList {
+    width: 100%;
+    height: 98px;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    gap: 10px;
+  }
+
+  .patInfoCont {
+    width: 100%;
+    height: calc(100% - 156px);
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 12px 32px;
+  }
+}
+
+@media (max-width: 430px) {
+  .patListCont {
+    height: 148px;
+  }
+
+  .addBtnCont {
+    height: 54px;
+  }
+
+  .patList {
+    height: 94px;
+  }
+
+  .patInfoCont {
+    height: calc(100% - 148px);
+    padding: 14px 10px 28px;
+  }
+}
