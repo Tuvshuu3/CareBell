@@ -1,16 +1,8 @@
-import { Link } from "react-router-dom";
-
-const LinkButton = ({ username }) => {
-  const linkPath =
-    username === "Patient"
-      ? "/patientHome"
-      : username === "Caretaker"
-      ? "/caretakerHome"
-      : "/";
+const LinkButton = ({ onLogin }) => {
   return (
-    <Link to={linkPath}>
-      <button>Login</button>
-    </Link>
+    <button className="loginButton" type="button" onClick={onLogin}>
+      Login
+    </button>
   );
 };
 

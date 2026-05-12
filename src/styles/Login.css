@@ -1,8 +1,8 @@
 .body {
   width: 100vw;
   height: 100vh;
-  background: lightsteelblue;
-  font-family: "Arial", sans-serif;
+  background: #f7f9fc;
+  font-family: Roboto, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
@@ -11,21 +11,78 @@
 }
 
 .loginCont {
-  width: 40%;
-  height: 40%;
+  width: min(420px, calc(100vw - 32px));
+  min-height: 430px;
+  box-sizing: border-box;
+  padding: 34px;
   display: flex;
   background-color: white;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  border: 1px solid #ccc;
+  justify-content: center;
+  align-items: stretch;
+  gap: 28px;
+  border: 1px solid rgba(65, 105, 225, 0.18);
+  border-radius: 8px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+}
+
+.loginHeader {
+  text-align: center;
+}
+
+.loginHeader h1 {
+  margin: 0;
+  color: #092b9c;
+  font-size: 34px;
+}
+
+.loginHeader p {
+  margin: 8px 0 0;
+  color: #5f6368;
+  font-size: 15px;
 }
 
 .inputCont {
-  width: 80%;
-  height: 35%;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
+  gap: 14px;
+}
+
+.inputField {
+  width: 100%;
+  height: 44px;
+  box-sizing: border-box;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  padding: 0 12px;
+  font: inherit;
+}
+
+.inputField:focus {
+  outline: 2px solid rgba(65, 105, 225, 0.25);
+  border-color: rgba(65, 105, 225, 0.75);
+}
+
+.loginButton {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #4169e1;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #3154b8;
+}
+
+.loginError {
+  color: #c62828;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
 }

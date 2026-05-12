@@ -4,3 +4,4 @@ export { default as PatientItem } from "./PatientItem";
 export { default as LinkButton } from "./LinkButton";
 export { default as MedicineCard } from "./MedicineCard";
 export { default as AddCard } from "./AddCard";
+export { default as PatientMedicineRow } from "./PatientMedicineRow";

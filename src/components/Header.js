@@ -1,10 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 import BellLogo from "../assets/BellLogo";
 import NotifLogo from "../assets/NotifLogo";
 import AccLogo from "../assets/AccLogo";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="header-cont">
       <div className="logo">
@@ -13,9 +16,14 @@ const Header = () => {
       </div>
       <div className="userPart">
         <NotifLogo />
-        <div className="accSt">
+        <button
+          className="accSt"
+          type="button"
+          onClick={() => navigate("/")}
+          aria-label="Logout"
+        >
           <AccLogo />
-        </div>
+        </button>
       </div>
     </div>
   );
