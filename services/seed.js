@@ -2,17 +2,36 @@ const medicines = require("../src/medicines.json");
 const {
   closeDatabaseConnection,
   connectToDatabase,
-  getPatientsCollection,
+  getUsersCollection,
 } = require("./mongodb");
 
 async function seed() {
-  await connectToDatabase();
-  const patientsCollection = getPatientsCollection();
+  const db = await connectToDatabase();
+  const usersCollection = getUsersCollection();
 
-  await patientsCollection.deleteMany({});
-  const result = await patientsCollection.insertMany(medicines);
+  await db.collection("patients").drop().catch(() => {});
 
-  console.log(`added ${result.insertedCount}`);
+  await Promise.all(
+    medicines.map((patient) =>
+      usersCollection.updateOne(
+        { username: patient.name },
+        {
+          $set: {
+            username: patient.name,
+            password: patient.password || "123",
+            role: "patient",
+            name: patient.name,
+            age: patient.age || "",
+            profile: patient.profile || "",
+            medicines: patient.medicines || [],
+          },
+        },
+        { upsert: true }
+      )
+    )
+  );
+
+  console.log(`seeded ${medicines.length} patient users`);
 }
 
 seed()

@@ -1,7 +1,7 @@
 .patient-home {
   width: 100vw;
   height: 100vh;
-  background-color: #f7f9fc;
+  background-color: #f4f8ff;
   display: flex;
   flex-direction: column;
   font-family: Roboto, sans-serif;
@@ -147,6 +147,40 @@
   font-weight: 700;
 }
 
+.missed-dose-banner {
+  max-width: 980px;
+  margin: 0 auto 14px;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid rgba(198, 40, 40, 0.22);
+  border-radius: 8px;
+  background-color: #fff7f7;
+  color: #8a1c1c;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  font-weight: 700;
+}
+
+.missed-dose-banner button {
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #4169e1;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  padding: 0 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.missed-dose-banner button:hover {
+  background-color: #3154b8;
+}
+
 .dose-alert-backdrop {
   position: fixed;
   inset: 0;
@@ -208,6 +242,11 @@
   .patient-home-title h1 {
     font-size: 24px;
     line-height: 1.2;
+  }
+
+  .missed-dose-banner {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .patient-med-bar {

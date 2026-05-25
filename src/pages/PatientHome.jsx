@@ -3,39 +3,43 @@ import { useSearchParams } from "react-router-dom";
 import { Header, PatientMedicineRow } from "../components";
 import {
   getActiveCourse,
+  getLatestDoseLog,
   getNextDoseTime,
   isMedicineActive,
 } from "../components/PatientMedicineRow";
-import { createDoseLog, getPatients } from "../api";
+import { createDoseLog, getPatient } from "../api";
 import "../styles/PatientHome.css";
 
 const PatientHome = () => {
   const [searchParams] = useSearchParams();
-  const requestedPatient = searchParams.get("patient");
+  const requestedPatientId = searchParams.get("patientId");
   const [medicineData, setMedicineData] = useState([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [activeAlert, setActiveAlert] = useState(null);
+  const [missedDose, setMissedDose] = useState(null);
   const [handledAlerts, setHandledAlerts] = useState([]);
   const patientData =
-    medicineData.find(
-      (patient) =>
-        patient.name.toLowerCase() === requestedPatient?.toLowerCase()
-    ) || medicineData[0];
+    medicineData.find((patient) => patient._id === requestedPatientId) ||
+    medicineData[0];
   const patientName = patientData?.name;
   const patientId = patientData?._id;
 
   useEffect(() => {
     async function loadPatients() {
+      if (!requestedPatientId) {
+        return;
+      }
+
       try {
-        const patients = await getPatients();
-        setMedicineData(patients);
+        const patient = await getPatient(requestedPatientId);
+        setMedicineData([patient]);
       } catch (error) {
         console.error(error);
       }
     }
 
     loadPatients();
-  }, []);
+  }, [requestedPatientId]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -46,7 +50,7 @@ const PatientHome = () => {
   }, []);
 
   useEffect(() => {
-    if (!patientData || activeAlert) {
+    if (!patientData || activeAlert || missedDose) {
       return;
     }
 
@@ -54,6 +58,12 @@ const PatientHome = () => {
     const dueMedicine = patientData.medicines
       .map((medicine) => {
         if (!isMedicineActive(medicine, currentTime)) {
+          return null;
+        }
+
+        const latestDoseLog = getLatestDoseLog(medicine.doseLogs);
+
+        if (latestDoseLog?.status === "missed") {
           return null;
         }
 
@@ -77,6 +87,7 @@ const PatientHome = () => {
           medicineName: medicine.name,
           courseId: activeCourse.courseId,
           dueTime,
+          deadline: new Date(dueTime.getTime() + 30 * 1000),
         };
       })
       .find(Boolean);
@@ -85,7 +96,36 @@ const PatientHome = () => {
       setActiveAlert(dueMedicine);
       setHandledAlerts((currentAlerts) => [...currentAlerts, dueMedicine.key]);
     }
-  }, [activeAlert, currentTime, handledAlerts, patientData]);
+  }, [activeAlert, currentTime, handledAlerts, missedDose, patientData]);
+
+  useEffect(() => {
+    if (!patientData || activeAlert || missedDose) {
+      return;
+    }
+
+    const unresolvedMissedDose = patientData.medicines
+      .map((medicine) => {
+        const latestDoseLog = getLatestDoseLog(medicine.doseLogs);
+        const activeCourse = getActiveCourse(medicine, currentTime);
+
+        if (latestDoseLog?.status !== "missed" || !activeCourse) {
+          return null;
+        }
+
+        return {
+          key: `${medicine.id}-${latestDoseLog.time}`,
+          medicineId: medicine.id,
+          medicineName: medicine.name,
+          courseId: latestDoseLog.courseId,
+          dueTime: new Date(latestDoseLog.time),
+        };
+      })
+      .find(Boolean);
+
+    if (unresolvedMissedDose) {
+      setMissedDose(unresolvedMissedDose);
+    }
+  }, [activeAlert, currentTime, missedDose, patientData]);
 
   const addDoseLog = useCallback(
     async (medicineId, doseLog) => {
@@ -128,7 +168,7 @@ const PatientHome = () => {
   );
 
   const handleTaken = async () => {
-    if (!activeAlert) {
+    if (!activeAlert || currentTime > activeAlert.deadline) {
       return;
     }
 
@@ -140,11 +180,52 @@ const PatientHome = () => {
     setActiveAlert(null);
   };
 
+  const handleTookMissedDose = async () => {
+    if (!missedDose) {
+      return;
+    }
+
+    await addDoseLog(missedDose.medicineId, {
+      courseId: missedDose.courseId,
+      time: currentTime.toISOString(),
+      status: "taken",
+    });
+    setMissedDose(null);
+  };
+
+  useEffect(() => {
+    if (!activeAlert || currentTime < activeAlert.deadline) {
+      return;
+    }
+
+    async function logMissedDose() {
+      const missedAlert = activeAlert;
+      setActiveAlert(null);
+      await addDoseLog(missedAlert.medicineId, {
+        courseId: missedAlert.courseId,
+        time: missedAlert.dueTime.toISOString(),
+        status: "missed",
+      });
+      setMissedDose(missedAlert);
+    }
+
+    logMissedDose();
+  }, [activeAlert, addDoseLog, currentTime]);
+
   return (
     <div className="patient-home">
       <Header />
 
       <main className="patient-home-main">
+        {missedDose && (
+          <div className="missed-dose-banner">
+            <span>{missedDose.medicineName} was missed.</span>
+            <button type="button" onClick={handleTookMissedDose}>
+              Took it
+            </button>
+          </div>
+        )}
+
         <div className="patient-home-title">
           <h1>{patientData?.name || "Patient"}'s medicines</h1>
         </div>
@@ -159,7 +240,7 @@ const PatientHome = () => {
               />
             ))
           ) : (
-            <div className="patient-empty-state">No medicines added</div>
+            <div className="patient-empty-state">No medicines</div>
           )}
         </div>
       </main>
@@ -168,7 +249,6 @@ const PatientHome = () => {
         <div className="dose-alert-backdrop">
           <div className="dose-alert">
             <h2>{activeAlert.medicineName}'s time is up</h2>
-            <p>Take this medicine.</p>
             <button type="button" onClick={handleTaken}>
               Taken
             </button>

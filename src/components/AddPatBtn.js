@@ -3,8 +3,7 @@ import "../styles/PatientItem.css";
 import AddIcon from "../assets/AddIcon";
 
 const initialForm = {
-  name: "",
-  profile: "",
+  username: "",
 };
 
 const AddPatBtn = ({ onAddPatient }) => {
@@ -29,9 +28,7 @@ const AddPatBtn = ({ onAddPatient }) => {
     event.preventDefault();
 
     onAddPatient({
-      name: form.name.trim(),
-      profile: form.profile.trim(),
-      medicines: [],
+      username: form.username.trim(),
     });
 
     handleClose();
@@ -66,22 +63,12 @@ const AddPatBtn = ({ onAddPatient }) => {
             </div>
 
             <label>
-              Name
+              Patient username
               <input
-                name="name"
-                value={form.name}
+                name="username"
+                value={form.username}
                 onChange={handleChange}
                 required
-              />
-            </label>
-
-            <label>
-              Image URL
-              <input
-                name="profile"
-                type="url"
-                value={form.profile}
-                onChange={handleChange}
               />
             </label>
 

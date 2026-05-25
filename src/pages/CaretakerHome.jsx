@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   Header,
   AddPatBtn,
@@ -10,11 +11,11 @@ import "../styles/Home.css";
 import oldMan from "../assets/oldMan.png";
 import oldWoman from "../assets/oldWoman.png";
 import {
+  addCaretakerPatient,
   createCourse,
   createMedicine,
-  createPatient,
   deleteMedicine,
-  getPatients,
+  getCaretakerPatients,
 } from "../api";
 
 const defaultPatientProfile = oldMan;
@@ -22,12 +23,10 @@ const patientProfiles = {
   John: oldMan,
   Emily: oldWoman,
 };
-const patientAges = {
-  John: "82",
-  Emily: "75",
-};
 
 const CaretakerHome = () => {
+  const [searchParams] = useSearchParams();
+  const caretakerId = searchParams.get("caretakerId");
   const [patient, setPatient] = useState("");
   const [loading, setLoading] = useState(false);
   const [medicineData, setMedicineData] = useState([]);
@@ -36,8 +35,12 @@ const CaretakerHome = () => {
 
   useEffect(() => {
     async function loadPatients() {
+      if (!caretakerId) {
+        return;
+      }
+
       try {
-        const patients = await getPatients();
+        const patients = await getCaretakerPatients(caretakerId);
         setMedicineData(patients);
 
         if (patients.length > 0) {
@@ -53,7 +56,7 @@ const CaretakerHome = () => {
     }
 
     loadPatients();
-  }, []);
+  }, [caretakerId]);
 
   const handlePatientChange = (newPatient) => {
     if (newPatient !== patient) {
@@ -65,15 +68,15 @@ const CaretakerHome = () => {
     }
   };
 
-  const handleAddPatient = async (newPatient) => {
-    const patientName = newPatient.name.trim();
+  const handleAddPatient = async ({ username }) => {
+    const patientUsername = username.trim();
 
-    if (!patientName) {
+    if (!patientUsername || !caretakerId) {
       return;
     }
 
     const patientExists = medicineData.some(
-      (e) => e.name.toLowerCase() === patientName.toLowerCase()
+      (e) => e.name.toLowerCase() === patientUsername.toLowerCase()
     );
 
     if (patientExists) {
@@ -81,17 +84,16 @@ const CaretakerHome = () => {
     }
 
     try {
-      const createdPatient = await createPatient({
-        ...newPatient,
-        name: patientName,
-        profile: newPatient.profile || defaultPatientProfile,
-      });
+      const linkedPatient = await addCaretakerPatient(
+        caretakerId,
+        patientUsername
+      );
 
       setMedicineData((currentMedicineData) => [
         ...currentMedicineData,
-        createdPatient,
+        linkedPatient,
       ]);
-      setPatient(createdPatient.name);
+      setPatient(linkedPatient.name);
       return;
     } catch (error) {
       console.error(error);
@@ -207,7 +209,7 @@ const CaretakerHome = () => {
               <PatientItem
                 key={patientMedicineData.name}
                 name={patientMedicineData.name}
-                age={patientAges[patientMedicineData.name]}
+                age={patientMedicineData.age}
                 profile={
                   patientMedicineData.profile ||
                   patientProfiles[patientMedicineData.name] ||

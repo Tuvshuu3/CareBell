@@ -1,7 +1,7 @@
 .homeBody {
   width: 100vw;
   height: 100vh;
-  background-color: white;
+  background-color: #f4f8ff;
   display: flex;
   flex-direction: column;
 }

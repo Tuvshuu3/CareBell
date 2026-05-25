@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Header.css";
 import BellLogo from "../assets/BellLogo";
-import NotifLogo from "../assets/NotifLogo";
 import AccLogo from "../assets/AccLogo";
 
 const Header = () => {
@@ -15,7 +14,6 @@ const Header = () => {
         <div>Care Bell</div>
       </div>
       <div className="userPart">
-        <NotifLogo />
         <button
           className="accSt"
           type="button"

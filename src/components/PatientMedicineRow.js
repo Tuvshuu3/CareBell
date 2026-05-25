@@ -43,7 +43,7 @@ export const getActiveCourse = (medicine, date = new Date()) =>
 export const isMedicineActive = (medicine, date = new Date()) =>
   Boolean(getActiveCourse(medicine, date));
 
-const getLatestDoseLog = (doseLogs = []) =>
+export const getLatestDoseLog = (doseLogs = []) =>
   [...doseLogs].sort(
     (firstLog, secondLog) => new Date(secondLog.time) - new Date(firstLog.time)
   )[0];
@@ -59,7 +59,7 @@ const getLatestTakenLog = (doseLogs = []) =>
 export const getNextDoseTime = (medicine, currentTime) => {
   const latestDoseLog = getLatestDoseLog(medicine.doseLogs);
 
-  if (!latestDoseLog) {
+  if (!latestDoseLog || latestDoseLog.status === "missed") {
     return null;
   }
 
@@ -108,11 +108,15 @@ const getTimeRemaining = (nextDoseTime, currentTime) => {
 export default function PatientMedicineRow({ medicine, currentTime }) {
   const [isOpen, setIsOpen] = useState(false);
   const medicineIsActive = isMedicineActive(medicine, currentTime);
+  const latestDoseLog = getLatestDoseLog(medicine.doseLogs);
   const latestTakenLog = getLatestTakenLog(medicine.doseLogs);
   const nextDoseTime = getNextDoseTime(medicine, currentTime);
-  const timeRemaining = medicineIsActive
-    ? getTimeRemaining(nextDoseTime, currentTime)
-    : "Not active";
+  const timeRemaining =
+    latestDoseLog?.status === "missed"
+      ? "Missed dose"
+      : medicineIsActive
+      ? getTimeRemaining(nextDoseTime, currentTime)
+      : "Not active";
 
   return (
     <div className={`patient-med-row ${isOpen ? "open" : ""}`}>

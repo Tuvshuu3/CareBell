@@ -1,0 +1,171 @@
+.admin-home {
+  width: 100vw;
+  height: 100vh;
+  background-color: #f4f8ff;
+  display: flex;
+  flex-direction: column;
+  font-family: Roboto, sans-serif;
+}
+
+.admin-main {
+  width: 100%;
+  height: 92%;
+  box-sizing: border-box;
+  padding: 28px clamp(18px, 5vw, 64px) 48px;
+  overflow-y: auto;
+}
+
+.admin-title {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+}
+
+.admin-title h1 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 30px;
+}
+
+.admin-title p {
+  margin: 6px 0 0;
+  color: #5f6368;
+}
+
+.admin-message {
+  max-width: 1100px;
+  margin: 0 auto 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(198, 40, 40, 0.25);
+  border-radius: 8px;
+  background-color: #fff5f5;
+  color: #c62828;
+  font-weight: 700;
+}
+
+.admin-section {
+  max-width: 1100px;
+  margin: 0 auto 26px;
+}
+
+.admin-section h2 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.admin-user-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.admin-user-card,
+.admin-empty {
+  border: 1px solid rgba(65, 105, 225, 0.16);
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.admin-user-card {
+  padding: 16px;
+}
+
+.admin-empty {
+  padding: 24px;
+  color: #5f6368;
+  font-weight: 700;
+  text-align: center;
+}
+
+.admin-user-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-user-header h3 {
+  margin: 0 0 4px;
+  color: #111827;
+  font-size: 19px;
+}
+
+.admin-user-header p {
+  margin: 0;
+  color: #5f6368;
+  font-size: 14px;
+}
+
+.admin-delete-button {
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  background-color: #c62828;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.admin-delete-button:hover {
+  background-color: #a61f1f;
+}
+
+.admin-medicine-list {
+  margin-top: 16px;
+  color: #374151;
+}
+
+.admin-medicine-list > strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.admin-medicine-list p {
+  margin: 0;
+  color: #5f6368;
+}
+
+.admin-medicine {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr auto;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(65, 105, 225, 0.12);
+  color: #5f6368;
+  font-size: 14px;
+}
+
+.admin-medicine span:first-child {
+  color: #111827;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .admin-main {
+    height: calc(100vh - 72px);
+    padding: 20px 14px 32px;
+  }
+
+  .admin-title h1 {
+    font-size: 24px;
+  }
+
+  .admin-user-list {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-user-header {
+    flex-direction: column;
+  }
+
+  .admin-delete-button {
+    width: 100%;
+  }
+
+  .admin-medicine {
+    grid-template-columns: 1fr;
+  }
+}

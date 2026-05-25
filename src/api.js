@@ -25,6 +25,45 @@ export function getPatients() {
   return request("/patients");
 }
 
+export function loginUser(credentials) {
+  return request("/login", {
+    method: "POST",
+    body: JSON.stringify(credentials),
+  });
+}
+
+export function createUser(user) {
+  return request("/users", {
+    method: "POST",
+    body: JSON.stringify(user),
+  });
+}
+
+export function getUsers() {
+  return request("/users");
+}
+
+export function deleteUser(userId) {
+  return request(`/users/${userId}`, {
+    method: "DELETE",
+  });
+}
+
+export function getPatient(patientId) {
+  return request(`/patients/${patientId}`);
+}
+
+export function getCaretakerPatients(caretakerId) {
+  return request(`/caretakers/${caretakerId}/patients`);
+}
+
+export function addCaretakerPatient(caretakerId, username) {
+  return request(`/caretakers/${caretakerId}/patients`, {
+    method: "POST",
+    body: JSON.stringify({ username }),
+  });
+}
+
 export function createPatient(patient) {
   return request("/patients", {
     method: "POST",

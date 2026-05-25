@@ -28,12 +28,12 @@ async function connectToDatabase() {
   return db;
 }
 
-function getPatientsCollection() {
+function getUsersCollection() {
   if (!db) {
     throw new Error("Db not connected");
   }
 
-  return db.collection("patients");
+  return db.collection("users");
 }
 
 function toObjectId(id) {
@@ -52,6 +52,6 @@ async function closeDatabaseConnection() {
 module.exports = {
   closeDatabaseConnection,
   connectToDatabase,
-  getPatientsCollection,
+  getUsersCollection,
   toObjectId,
 };
