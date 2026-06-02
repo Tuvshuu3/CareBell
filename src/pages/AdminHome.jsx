@@ -34,6 +34,12 @@ const AdminHome = () => {
 
   const patients = users.filter((user) => user.role === "patient");
   const caretakers = users.filter((user) => user.role === "caretaker");
+  const getPatientCaretakers = (patientId) =>
+    caretakers.filter((caretaker) =>
+      caretaker.patientIds?.some(
+        (caretakerPatientId) => String(caretakerPatientId) === String(patientId)
+      )
+    );
 
   return (
     <div className="admin-home">
@@ -50,41 +56,55 @@ const AdminHome = () => {
           <h2>Patients</h2>
           <div className="admin-user-list">
             {patients.length > 0 ? (
-              patients.map((patient) => (
-                <article className="admin-user-card" key={patient._id}>
-                  <div className="admin-user-header">
-                    <div>
-                      <h3>{patient.name || patient.username}</h3>
-                      <p>
-                        @{patient.username}
-                        {patient.age ? ` | Age ${patient.age}` : ""}
-                      </p>
-                    </div>
-                    <button
-                      className="admin-delete-button"
-                      type="button"
-                      onClick={() => handleDeleteUser(patient._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
+              patients.map((patient) => {
+                const patientCaretakers = getPatientCaretakers(patient._id);
 
-                  <div className="admin-medicine-list">
-                    <strong>Medicines</strong>
-                    {patient.medicines?.length > 0 ? (
-                      patient.medicines.map((medicine) => (
-                        <div className="admin-medicine" key={medicine.id}>
-                          <span>{medicine.name}</span>
-                          <span>{medicine.dosage}</span>
-                          <span>Every {medicine.intervalHours}h</span>
+                return (
+                  <article className="admin-user-card" key={patient._id}>
+                    <div className="admin-user-header">
+                      <div>
+                        <h3>{patient.name || patient.username}</h3>
+                        <p>{patient.age ? `Age ${patient.age}` : "Age not set"}</p>
+                      </div>
+                      <button
+                        className="admin-delete-button"
+                        type="button"
+                        onClick={() => handleDeleteUser(patient._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+
+                    <div className="admin-caretaker-list">
+                      <strong>Caretakers</strong>
+                      {patientCaretakers.length > 0 ? (
+                        <div className="admin-caretaker-tags">
+                          {patientCaretakers.map((caretaker) => (
+                            <span key={caretaker._id}>{caretaker.username}</span>
+                          ))}
                         </div>
-                      ))
-                    ) : (
-                      <p>No medicines added</p>
-                    )}
-                  </div>
-                </article>
-              ))
+                      ) : (
+                        <p>No caretakers assigned</p>
+                      )}
+                    </div>
+
+                    <div className="admin-medicine-list">
+                      <strong>Medicines</strong>
+                      {patient.medicines?.length > 0 ? (
+                        patient.medicines.map((medicine) => (
+                          <div className="admin-medicine" key={medicine.id}>
+                            <span>{medicine.name}</span>
+                            <span>{medicine.dosage}</span>
+                            <span>Every {medicine.intervalHours}h</span>
+                          </div>
+                        ))
+                      ) : (
+                        <p>No medicines added</p>
+                      )}
+                    </div>
+                  </article>
+                );
+              })
             ) : (
               <div className="admin-empty">No patients found</div>
             )}
