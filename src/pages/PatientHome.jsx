@@ -19,6 +19,35 @@ const getLatestCourseDoseLog = (doseLogs = [], courseId) =>
         new Date(secondLog.time) - new Date(firstLog.time)
     )[0];
 
+const isSameDay = (firstDate, secondDate) =>
+  firstDate.getFullYear() === secondDate.getFullYear() &&
+  firstDate.getMonth() === secondDate.getMonth() &&
+  firstDate.getDate() === secondDate.getDate();
+
+const HomeIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 10.5 12 3l9 7.5" />
+    <path d="M5 9.5V21h14V9.5" />
+    <path d="M9 21v-7h6v7" />
+  </svg>
+);
+
+const CalendarIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 4h14a2 2 0 0 1 2 2v15H3V6a2 2 0 0 1 2-2Z" />
+    <path d="M8 2v5" />
+    <path d="M16 2v5" />
+    <path d="M3 10h18" />
+  </svg>
+);
+
+const UserIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" />
+    <path d="M4 22a8 8 0 0 1 16 0" />
+  </svg>
+);
+
 const PatientHome = () => {
   const [searchParams] = useSearchParams();
   const requestedPatientId = searchParams.get("patientId");
@@ -27,12 +56,61 @@ const PatientHome = () => {
   const [activeAlert, setActiveAlert] = useState(null);
   const [missedDoses, setMissedDoses] = useState([]);
   const [handledAlerts, setHandledAlerts] = useState([]);
+  const [medicineSearch, setMedicineSearch] = useState("");
+  const [medicineFilter, setMedicineFilter] = useState("all");
   const pendingMissedDoseKeys = useRef(new Set());
   const patientData =
     medicineData.find((patient) => patient._id === requestedPatientId) ||
     medicineData[0];
   const patientName = patientData?.name;
   const patientId = patientData?._id;
+  const filteredMedicines =
+    patientData?.medicines?.filter((medicine) => {
+      const matchesSearch = medicine.name
+        .toLowerCase()
+        .includes(medicineSearch.trim().toLowerCase());
+
+      if (!matchesSearch) {
+        return false;
+      }
+
+      const medicineIsActive = isMedicineActive(medicine, currentTime);
+
+      if (medicineFilter === "all") {
+        return true;
+      }
+
+      if (medicineFilter === "active") {
+        return medicineIsActive;
+      }
+
+      if (medicineFilter === "inactive") {
+        return !medicineIsActive;
+      }
+
+      const activeCourse = getActiveCourse(medicine, currentTime);
+
+      if (!activeCourse) {
+        return false;
+      }
+
+      const nextDoseTime = getNextDoseTime(
+        {
+          ...medicine,
+          doseLogs: medicine.doseLogs.filter(
+            (doseLog) => doseLog.courseId === activeCourse.courseId
+          ),
+        },
+        currentTime
+      );
+
+      return !nextDoseTime || isSameDay(nextDoseTime, currentTime);
+    }) || [];
+  const sortedMedicines = [...filteredMedicines].sort(
+    (firstMedicine, secondMedicine) =>
+      Number(isMedicineActive(secondMedicine, currentTime)) -
+      Number(isMedicineActive(firstMedicine, currentTime))
+  );
 
   useEffect(() => {
     async function loadPatient() {
@@ -365,11 +443,48 @@ const PatientHome = () => {
 
         <div className="patient-home-title">
           <h1>{patientData?.name || "Patient"}'s medicines</h1>
+          <input
+            className="patient-medicine-search"
+            type="search"
+            value={medicineSearch}
+            onChange={(event) => setMedicineSearch(event.target.value)}
+            placeholder="Search medicines"
+          />
+          <div className="patient-medicine-filters" aria-label="Medicine filters">
+            <button
+              className={medicineFilter === "all" ? "active" : ""}
+              type="button"
+              onClick={() => setMedicineFilter("all")}
+            >
+              All
+            </button>
+            <button
+              className={medicineFilter === "today" ? "active" : ""}
+              type="button"
+              onClick={() => setMedicineFilter("today")}
+            >
+              Today's medicines
+            </button>
+            <button
+              className={medicineFilter === "active" ? "active" : ""}
+              type="button"
+              onClick={() => setMedicineFilter("active")}
+            >
+              Active
+            </button>
+            <button
+              className={medicineFilter === "inactive" ? "active" : ""}
+              type="button"
+              onClick={() => setMedicineFilter("inactive")}
+            >
+              Non active
+            </button>
+          </div>
         </div>
 
         <div className="patient-medicine-list">
-          {patientData?.medicines?.length > 0 ? (
-            patientData.medicines.map((medicine) => (
+          {sortedMedicines.length > 0 ? (
+            sortedMedicines.map((medicine) => (
               <PatientMedicineRow
                 key={medicine.id}
                 medicine={medicine}
@@ -377,7 +492,11 @@ const PatientHome = () => {
               />
             ))
           ) : (
-            <div className="patient-empty-state">No medicines</div>
+            <div className="patient-empty-state">
+              {patientData?.medicines?.length > 0
+                ? "No matching medicines"
+                : "No medicines"}
+            </div>
           )}
         </div>
       </main>
@@ -392,6 +511,21 @@ const PatientHome = () => {
           </div>
         </div>
       )}
+
+      <footer className="patient-mobile-menu" aria-label="Patient menu">
+        <button className="active" type="button" aria-current="page">
+          <HomeIcon />
+          <span>Home</span>
+        </button>
+        <button type="button">
+          <CalendarIcon />
+          <span>Schedule</span>
+        </button>
+        <button type="button">
+          <UserIcon />
+          <span>Profile</span>
+        </button>
+      </footer>
     </div>
   );
 };

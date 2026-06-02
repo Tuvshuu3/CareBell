@@ -26,6 +26,61 @@
   font-size: 30px;
 }
 
+.patient-medicine-search {
+  width: 100%;
+  height: 42px;
+  box-sizing: border-box;
+  margin-top: 14px;
+  border: 1px solid rgba(65, 105, 225, 0.22);
+  border-radius: 8px;
+  background-color: white;
+  color: #111827;
+  font: inherit;
+  padding: 0 14px;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+}
+
+.patient-medicine-search:focus {
+  border-color: #4169e1;
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.14);
+}
+
+.patient-medicine-search::placeholder {
+  color: #8a94a6;
+}
+
+.patient-medicine-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.patient-medicine-filters button {
+  min-height: 36px;
+  border: 1px solid rgba(65, 105, 225, 0.22);
+  border-radius: 8px;
+  background-color: white;
+  color: #4b5563;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.patient-medicine-filters button:hover {
+  border-color: rgba(65, 105, 225, 0.42);
+  color: #092b9c;
+}
+
+.patient-medicine-filters button.active {
+  border-color: #4169e1;
+  background-color: #eef4ff;
+  color: #092b9c;
+}
+
 .patient-medicine-list {
   max-width: 980px;
   margin: 0 auto;
@@ -106,6 +161,10 @@
 .patient-med-timer strong {
   color: #092b9c;
   font-size: 22px;
+}
+
+.patient-med-status-alert {
+  color: #c62828 !important;
 }
 
 .patient-med-details {
@@ -229,10 +288,14 @@
   background-color: #3154b8;
 }
 
-@media (max-width: 720px) {
+.patient-mobile-menu {
+  display: none;
+}
+
+@media (max-width: 880px) {
   .patient-home-main {
     height: calc(100vh - 72px);
-    padding: 20px 14px 32px;
+    padding: 20px 14px 104px;
   }
 
   .patient-home-title {
@@ -242,6 +305,15 @@
   .patient-home-title h1 {
     font-size: 24px;
     line-height: 1.2;
+  }
+
+  .patient-medicine-filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .patient-medicine-filters button {
+    padding: 0 8px;
   }
 
   .missed-dose-banner {
@@ -292,15 +364,66 @@
   .patient-detail-grid {
     grid-template-columns: 1fr;
   }
+
+  .patient-mobile-menu {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    height: 72px;
+    padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(65, 105, 225, 0.16);
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  .patient-mobile-menu button {
+    min-width: 0;
+    border: 0;
+    border-radius: 8px;
+    background-color: transparent;
+    color: #6b7280;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+
+  .patient-mobile-menu button.active {
+    background-color: #eef4ff;
+    color: #092b9c;
+  }
+
+  .patient-mobile-menu svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
 }
 
 @media (max-width: 430px) {
   .patient-home-main {
-    padding: 18px 12px 28px;
+    padding: 18px 12px 104px;
   }
 
   .patient-medicine-list {
     gap: 10px;
+  }
+
+  .patient-medicine-filters {
+    grid-template-columns: 1fr;
   }
 
   .patient-med-bar {
