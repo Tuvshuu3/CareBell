@@ -163,7 +163,11 @@
   font-size: 22px;
 }
 
-.patient-med-status-alert {
+.patient-med-status-missed {
+  color: #ff1f1f !important;
+}
+
+.patient-med-status-inactive {
   color: #c62828 !important;
 }
 

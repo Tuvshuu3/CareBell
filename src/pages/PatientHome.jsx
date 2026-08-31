@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header, PatientMedicineRow } from "../components";
+import { HomeIcon, CalendarIcon, UserIcon } from "../assets";
 import {
   getActiveCourse,
   getNextDoseTime,
@@ -23,30 +24,6 @@ const isSameDay = (firstDate, secondDate) =>
   firstDate.getFullYear() === secondDate.getFullYear() &&
   firstDate.getMonth() === secondDate.getMonth() &&
   firstDate.getDate() === secondDate.getDate();
-
-const HomeIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M3 10.5 12 3l9 7.5" />
-    <path d="M5 9.5V21h14V9.5" />
-    <path d="M9 21v-7h6v7" />
-  </svg>
-);
-
-const CalendarIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M5 4h14a2 2 0 0 1 2 2v15H3V6a2 2 0 0 1 2-2Z" />
-    <path d="M8 2v5" />
-    <path d="M16 2v5" />
-    <path d="M3 10h18" />
-  </svg>
-);
-
-const UserIcon = () => (
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" />
-    <path d="M4 22a8 8 0 0 1 16 0" />
-  </svg>
-);
 
 const PatientHome = () => {
   const [searchParams] = useSearchParams();
@@ -450,7 +427,10 @@ const PatientHome = () => {
             onChange={(event) => setMedicineSearch(event.target.value)}
             placeholder="Search medicines"
           />
-          <div className="patient-medicine-filters" aria-label="Medicine filters">
+          <div
+            className="patient-medicine-filters"
+            aria-label="Medicine filters"
+          >
             <button
               className={medicineFilter === "all" ? "active" : ""}
               type="button"

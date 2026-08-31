@@ -117,8 +117,12 @@ export default function PatientMedicineRow({ medicine, currentTime }) {
       : medicineIsActive
       ? getTimeRemaining(nextDoseTime, currentTime)
       : "Not active";
-  const isWarningStatus =
-    timeRemaining === "Missed dose" || timeRemaining === "Not active";
+  const statusClass =
+    timeRemaining === "Missed dose"
+      ? "patient-med-status-missed"
+      : timeRemaining === "Not active"
+      ? "patient-med-status-inactive"
+      : "";
 
   return (
     <div className={`patient-med-row ${isOpen ? "open" : ""}`}>
@@ -141,9 +145,7 @@ export default function PatientMedicineRow({ medicine, currentTime }) {
 
         <div className="patient-med-timer">
           <span>Next dose</span>
-          <strong className={isWarningStatus ? "patient-med-status-alert" : ""}>
-            {timeRemaining}
-          </strong>
+          <strong className={statusClass}>{timeRemaining}</strong>
         </div>
       </button>
 
@@ -162,7 +164,9 @@ export default function PatientMedicineRow({ medicine, currentTime }) {
               {medicineIsActive && nextDoseTime
                 ? formatDateTime(nextDoseTime)
                 : (
-                    <span className="patient-med-status-alert">Not active</span>
+                    <span className="patient-med-status-inactive">
+                      Not active
+                    </span>
                   )}
             </p>
           </div>
