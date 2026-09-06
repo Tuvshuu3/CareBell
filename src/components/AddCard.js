@@ -15,10 +15,11 @@ const initialForm = {
 const defaultMedicineImage =
   "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b";
 
-const AddCard = ({ onAddMedicine }) => {
+const AddCard = ({ onAddMedicine, variant = "card", disabled = false }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState(initialForm);
+  const isFooterButton = variant === "footer";
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -67,18 +68,20 @@ const AddCard = ({ onAddMedicine }) => {
   return (
     <>
       <button
-        className="add-card"
+        className={`add-card add-card-${variant}`}
         type="button"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={() => setIsOpen(true)}
         aria-label="Add medicine"
+        disabled={disabled}
       >
         <AddIcon
-          fill={isHovered ? "#ffffff" : "#000000"}
-          height="80px"
-          width="80px"
+          fill={isFooterButton || isHovered ? "#ffffff" : "#000000"}
+          height={isFooterButton ? "22px" : "80px"}
+          width={isFooterButton ? "22px" : "80px"}
         />
+        {isFooterButton && <span>Add medicine</span>}
       </button>
 
       {isOpen && (

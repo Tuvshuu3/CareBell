@@ -1,5 +1,9 @@
+const dns = require("dns");
+
 const { MongoClient, ObjectId, ServerApiVersion } = require("mongodb");
 require("dotenv").config();
+
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
 const dbName = process.env.MONGODB_DB || "carebell";

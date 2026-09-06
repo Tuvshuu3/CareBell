@@ -78,7 +78,6 @@ const Login = () => {
       <div className="loginCont">
         <div className="loginHeader">
           <h1>Care Bell</h1>
-          <p>Sign in as Caretaker or enter a patient name</p>
         </div>
         <div className="inputCont">
           <input
@@ -157,7 +156,9 @@ const Login = () => {
                   onChange={handleSignupChange}
                 />
               )}
-              {signupMessage && <div className="loginError">{signupMessage}</div>}
+              {signupMessage && (
+                <div className="loginError">{signupMessage}</div>
+              )}
               <button className="loginButton" type="submit">
                 Create account
               </button>

@@ -1,7 +1,10 @@
 .medicine-card {
-  width: 300px;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  box-sizing: border-box;
   padding: 0;
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   border: 1px solid #ddd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -29,11 +32,25 @@
 .medicine-title {
   margin: 0 0 10px 0;
   font-size: 20px;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
 }
 
 .medicine-content p {
   margin: 5px 0;
   color: #555;
+}
+
+.medicine-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+
+.medicine-meta p,
+.medicine-last-dose {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .medicine-courses {
@@ -48,6 +65,11 @@
   gap: 10px;
   margin-top: 6px;
   font-size: 13px;
+}
+
+.medicine-course span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .course-status {
@@ -180,17 +202,86 @@
 }
 
 @media (max-width: 720px) {
-  .medicine-card {
-    width: min(100%, 390px);
-  }
-
   .medicine-image {
     height: 150px;
   }
+}
+
+@media (max-width: 520px) {
+  .medicine-card {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    min-height: 132px;
+  }
+
+  .medicine-image {
+    width: 104px;
+    height: 100%;
+    min-height: 132px;
+  }
+
+  .medicine-content {
+    min-width: 0;
+    padding: 10px 12px;
+  }
+
+  .medicine-title {
+    margin-bottom: 6px;
+    font-size: 17px;
+  }
+
+  .medicine-meta {
+    gap: 4px 10px;
+  }
+
+  .medicine-content p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .medicine-courses {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 5px 8px;
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .medicine-courses > strong {
+    grid-column: 1;
+  }
+
+  .medicine-courses > p {
+    grid-column: 2;
+  }
 
   .medicine-course {
-    align-items: flex-start;
-    flex-direction: column;
+    grid-column: 2;
+    align-items: center;
+    justify-content: flex-start;
     gap: 6px;
+    margin-top: 0;
+    font-size: 12px;
+  }
+
+  .course-status {
+    padding: 2px 6px;
+    font-size: 10px;
+  }
+
+  .medicine-last-dose {
+    margin-top: 6px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .medicine-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .medicine-image {
+    width: 88px;
   }
 }

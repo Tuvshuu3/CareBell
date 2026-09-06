@@ -109,48 +109,50 @@ export default function MedicineCard({
       >
         <img src={image} alt={name} className="medicine-image" />
 
-      <div className="medicine-content">
-        <h2 className="medicine-title">{name}</h2>
+        <div className="medicine-content">
+          <h2 className="medicine-title">{name}</h2>
 
-        <p>
-          <strong>Dosage:</strong> {dosage}
-        </p>
-        <p>
-          <strong>Interval:</strong> Every {intervalHours} hours
-        </p>
+          <div className="medicine-meta">
+            <p>
+              <strong>Dosage:</strong> {dosage}
+            </p>
+            <p>
+              <strong>Interval:</strong> Every {intervalHours} hours
+            </p>
+          </div>
 
-        <div className="medicine-courses">
-          <strong>Courses:</strong>
-          {courses.length > 0 ? (
-            courses.map((course) => {
-              const courseIsActive = isCourseActive(course);
+          <div className="medicine-courses">
+            <strong>Courses:</strong>
+            {courses.length > 0 ? (
+              courses.map((course) => {
+                const courseIsActive = isCourseActive(course);
 
-              return (
-                <div className="medicine-course" key={course.courseId}>
-                  <span>
-                    {formatDate(course.startDate)} to{" "}
-                    {formatDate(course.endDate)}
-                  </span>
-                  <span
-                    className={`course-status ${
-                      courseIsActive ? "active" : "inactive"
-                    }`}
-                  >
-                    {courseIsActive ? "Active" : "Inactive"}
-                  </span>
-                </div>
-              );
-            })
-          ) : (
-            <p>No courses added</p>
+                return (
+                  <div className="medicine-course" key={course.courseId}>
+                    <span>
+                      {formatDate(course.startDate)} to{" "}
+                      {formatDate(course.endDate)}
+                    </span>
+                    <span
+                      className={`course-status ${
+                        courseIsActive ? "active" : "inactive"
+                      }`}
+                    >
+                      {courseIsActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No courses added</p>
+            )}
+          </div>
+
+          {latestDoseLog && (
+            <p className="medicine-last-dose">
+              <strong>Last dose:</strong> {formatDateTime(latestDoseLog.time)}
+            </p>
           )}
-        </div>
-
-        {latestDoseLog && (
-          <p>
-            <strong>Last dose:</strong> {formatDateTime(latestDoseLog.time)}
-          </p>
-        )}
         </div>
       </article>
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header, PatientMedicineRow } from "../components";
-import { HomeIcon, CalendarIcon, UserIcon } from "../assets";
+import { HomeIcon } from "../assets";
 import {
   getActiveCourse,
   getNextDoseTime,
@@ -11,6 +11,14 @@ import { createDoseLog, getPatient } from "../api";
 import "../styles/PatientHome.css";
 
 const missed_dose_interval = 30 * 1000;
+
+const LogoutIcon = () => (
+  <svg aria-hidden="true" viewBox="0 0 24 24">
+    <path d="M10 17l5-5-5-5" />
+    <path d="M15 12H3" />
+    <path d="M21 19V5a2 2 0 0 0-2-2h-6" />
+  </svg>
+);
 
 const getLatestCourseDoseLog = (doseLogs = [], courseId) =>
   [...doseLogs]
@@ -26,6 +34,7 @@ const isSameDay = (firstDate, secondDate) =>
   firstDate.getDate() === secondDate.getDate();
 
 const PatientHome = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const requestedPatientId = searchParams.get("patientId");
   const [medicineData, setMedicineData] = useState([]);
@@ -497,13 +506,9 @@ const PatientHome = () => {
           <HomeIcon />
           <span>Home</span>
         </button>
-        <button type="button">
-          <CalendarIcon />
-          <span>Schedule</span>
-        </button>
-        <button type="button">
-          <UserIcon />
-          <span>Profile</span>
+        <button type="button" onClick={() => navigate("/")} aria-label="Logout">
+          <LogoutIcon />
+          <span>Logout</span>
         </button>
       </footer>
     </div>
